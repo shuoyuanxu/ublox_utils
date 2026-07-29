@@ -1,0 +1,15 @@
+# Stable names for the two ZED-F9P boards, keyed on the FTDI FT230X serial
+# number so they do not swap when both are plugged in.
+#
+#   D30G6YBQ -> /dev/ublox_rover
+#   D30G6YBU -> /dev/ublox_base
+#
+# Install:
+#   sudo cp tools/99-ublox.rules /etc/udev/rules.d/
+#   sudo udevadm control --reload-rules && sudo udevadm trigger
+#
+# The MODE/GROUP lines also make the ports readable without adding yourself to
+# the dialout group, though `sudo usermod -aG dialout $USER` is the tidier fix.
+
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="D30G6YBQ", SYMLINK+="ublox_rover", MODE="0660", GROUP="dialout"
+SUBSYSTEM=="tty", ATTRS{idVendor}=="0403", ATTRS{idProduct}=="6015", ATTRS{serial}=="D30G6YBU", SYMLINK+="ublox_base", MODE="0660", GROUP="dialout"

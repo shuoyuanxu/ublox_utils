@@ -1,0 +1,40 @@
+# ublox_gps driver settings for the RTK rover (ZED-F9P, FW HPG 1.32).
+#
+# config_on_startup is FALSE on purpose.
+#
+# The receiver's own configuration -- UART2 at 38400 accepting RTCM3 from the
+# 433 MHz radio, 5 Hz solution rate, automotive dynamic model -- is written to
+# its FLASH and survives power cycles. If the driver were allowed to configure
+# on startup it would overwrite that with whatever is in this file, and the
+# corrections coming in over UART2 would stop being accepted.
+#
+# Verify the receiver's stored settings any time with:
+#   python3 tools/verify_flash.py -d /dev/ublox_rover --role rover
+#
+# Because corrections arrive over UART2 from the radio, this node does NOT need
+# an RTCM input topic. There is no NTRIP client and nothing to subscribe to.
+
+device: /dev/ublox_rover
+frame_id: gnss
+
+config_on_startup: false      # do not touch the flashed receiver config
+
+uart1:
+  baudrate: 460800            # host link; must match the receiver's flashed value
+
+publish:
+  all: false
+  nav:
+    pvt: true                 # -> navpvt: fix type, carrier solution, accuracy
+    status: true              # -> navstatus: fix flags and differential status
+    posllh: false
+    velned: false
+    relposned: false          # moving-baseline only, not used here
+    sat: false                # verbose; enable only when debugging signal issues
+  rxm:
+    rtcm: true                # -> rxmrtcm: proves corrections are arriving
+
+inf:
+  all: false                  # receiver INF messages to the console
+
+debug: 0                      # 0-4

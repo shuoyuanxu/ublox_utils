@@ -1,0 +1,56 @@
+<launch>
+    <!--
+      RTK rover receiver (ZED-F9P).
+
+      Corrections arrive over UART2 from the 433 MHz radio, entirely inside the
+      receiver. Nothing in ROS needs to supply them, so this launch has no NTRIP
+      client and no RTCM subscriber.
+
+      Include it from a robot launch file:
+
+        <include file="$(find ublox_utils)/launch/rover.launch">
+          <arg name="node_name" value="gnss"/>
+          <arg name="frame_id"  value="gnss_link"/>
+        </include>
+
+      Topics are published under the node name, so the example above gives
+      /gnss/fix, /gnss/navpvt, /gnss/navstatus, /gnss/rxmrtcm.
+    -->
+
+    <arg name="node_name" default="ublox_rover"
+         doc="node name; also the namespace all topics are published under"/>
+    <arg name="device" default="/dev/ublox_rover"
+         doc="serial port; install tools/99-ublox.rules for this stable name"/>
+    <arg name="frame_id" default="gnss"
+         doc="TF frame the NavSatFix is stamped with"/>
+    <arg name="config" default="$(find ublox_utils)/config/rover.yaml"
+         doc="driver parameters"/>
+
+    <arg name="rtk_status" default="true"
+         doc="run the RTK health monitor; safe alongside the driver, unlike the
+              tools/ scripts which need exclusive access to the serial port"/>
+
+    <arg name="output" default="screen"/>
+    <arg name="respawn" default="true"/>
+    <arg name="respawn_delay" default="5"/>
+
+    <node pkg="ublox_gps" type="ublox_gps" name="$(arg node_name)"
+          output="$(arg output)"
+          clear_params="true"
+          respawn="$(arg respawn)"
+          respawn_delay="$(arg respawn_delay)">
+        <rosparam command="load" file="$(arg config)"/>
+        <param name="device" value="$(arg device)"/>
+        <param name="frame_id" value="$(arg frame_id)"/>
+    </node>
+
+    <!-- Logs RTK state changes so a degraded run is visible in the rosbag
+         rather than discovered afterwards. Namespaced to match the driver so
+         its relative 'navpvt' subscription resolves. -->
+    <node if="$(arg rtk_status)"
+          pkg="ublox_utils" type="rtk_status.py" name="rtk_status"
+          ns="$(arg node_name)"
+          output="$(arg output)"
+          respawn="$(arg respawn)"
+          respawn_delay="$(arg respawn_delay)"/>
+</launch>
