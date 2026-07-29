@@ -47,10 +47,7 @@ moving-baseline and NTRIP paths. Note the u-center configs specify **UART2 at
 
 ### Removed from the package
 
-The supplier's ROS 2 packages and `f9p_config.py` were moved to
-`../../reference/`. They contained **five ament packages nested inside this
-catkin package**, which breaks `catkin build`. They are reference only — that
-code uses MQTT/NTRIP corrections and a wired moving-baseline pair.
+The supplier's ROS 2 packages and `f9p_config.py` were removed.
 
 ---
 
