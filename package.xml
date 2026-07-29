@@ -1,32 +1,21 @@
 <?xml version="1.0"?>
 <package format="2">
     <name>ublox_utils</name>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <description>
-        Repository with ROS tools for the u-blox RTK receiver.
+        RTK GNSS rover for a ZED-F9P taking corrections from a standalone
+        ZED-F9P base over a 433 MHz radio link.
     </description>
     <author>Rik Bähnemann</author>
-    <maintainer email="brik@ethz.ch">Rik Bähnemann</maintainer>
+    <maintainer email="jjhshoppingregis@gmail.com">Shuoyuan</maintainer>
 
     <license>MIT</license>
 
     <buildtool_depend>catkin</buildtool_depend>
 
-    <build_depend>roscpp</build_depend>
-    <build_depend>nmea_msgs</build_depend>
-    <build_depend>ublox_msgs</build_depend>
-
-    <exec_depend>roscpp</exec_depend>
     <exec_depend>rospy</exec_depend>
     <exec_depend>std_msgs</exec_depend>
-    <exec_depend>nmea_msgs</exec_depend>
-    <exec_depend>ublox_msgs</exec_depend>
     <exec_depend>ublox_gps</exec_depend>
-    <exec_depend>mavros_msgs</exec_depend>
-    <exec_depend>rtcm_msgs</exec_depend>
-    <!-- Only needed for the legacy NTRIP path in launch/ublox.launch.
-         The RTK rover takes its corrections over the 433 MHz radio and does
-         not use NTRIP. -->
-    <exec_depend>ntrip_client</exec_depend>
+    <exec_depend>ublox_msgs</exec_depend>
 
 </package>

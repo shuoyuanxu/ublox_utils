@@ -32,8 +32,11 @@ class RtkStatus(object):
         # Below this, a FIXED claim is not trustworthy.
         self.min_sats = rospy.get_param("~min_satellites", 6)
 
-        self.pub_state = rospy.Publisher("~rtk_state", String, queue_size=1, latch=True)
-        self.pub_ok = rospy.Publisher("~rtk_ok", Bool, queue_size=1, latch=True)
+        # Relative, not private (~): the node runs inside the driver's namespace,
+        # so these land next to fix/navpvt as /<ns>/rtk_state rather than being
+        # buried at /<ns>/rtk_status/rtk_state.
+        self.pub_state = rospy.Publisher("rtk_state", String, queue_size=1, latch=True)
+        self.pub_ok = rospy.Publisher("rtk_ok", Bool, queue_size=1, latch=True)
 
         self.last_state = None
         self.last_report = rospy.Time(0)
