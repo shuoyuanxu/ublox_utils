@@ -163,21 +163,3 @@ reports 3.
 
 Launch arguments: `node_name`, `device`, `frame_id`, `config`, `rtk_status`,
 `respawn`.
-
-## E. Gotchas
-
-- Never run `roslaunch` under `sudo` — it strips `LD_LIBRARY_PATH` and the driver
-  respawn-loops on a missing `libublox_msgs.so`, looking exactly like a hardware
-  fault.
-- `MON-MSGPP`'s RTCM3 column reads zero even while valid RTCM is arriving. Use
-  `UBX-RXM-RTCM` (class `0x02`, id `0x32`); its `crcFailed` flag is authoritative.
-- `CFG-TMODE-FIXED_POS_ACC` is `0x4003000F`. `0x40030014` does not exist and NAKs
-  the whole VALSET batch, silently leaving the base in survey-in.
-- AGC is counter-intuitive: an absent or disconnected band pegs **high** (~6669);
-  RF overload reads **low** (~1400); healthy is ~4200–4600.
-- `numSV` counts satellites *used*, not tracked.
-- `rx = 0` with zero framing errors means the line is idle. A baud mismatch or
-  bad wiring produces errors, not silence.
-- Never hold two file descriptors on one tty — termios is per-device, not per-fd,
-  so a second `open()` at a different baud silently reconfigures the first.
-- A factory-reset F9P emits NMEA only, at 38400.
