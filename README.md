@@ -27,18 +27,7 @@ What remains is ours: `launch/rover.launch`, `config/rover.yaml`,
 - **Bridge CB1 (HM-TRP) on both boards, leave CB2 open.** Both boards must use
   the same radio module with a solid red Led as a indicator.
 
-## Setup
-
-Once per machine — the udev rule creates `/dev/ublox_rover`, which the launch
-file expects, and `dialout` lets the driver open it:
-
-```bash
-sudo cp tools/99-ublox.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules && sudo udevadm trigger
-sudo usermod -aG dialout $USER      # log out and back in
-```
-
-Then build:
+## Build:
 
 ```bash
 catkin_make
