@@ -34,9 +34,6 @@ catkin_make
 source devel/setup.bash
 ```
 
-> If the workspace sets `CATKIN_WHITELIST_PACKAGES`, this package is silently
-> skipped. Clear it with `catkin_make -DCATKIN_WHITELIST_PACKAGES=""`.
-
 ## Usage
 
 ```bash
