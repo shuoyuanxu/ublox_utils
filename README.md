@@ -24,14 +24,8 @@ What remains is ours: `launch/rover.launch`, `config/rover.yaml`,
 | Rover | `D30G6YBQ` | `/dev/ublox_rover` |
 | Base | `D30G6YBU` | `/dev/ublox_base` |
 
-Three things the boards will not tell you:
-
 - **Bridge CB1 (HM-TRP) on both boards, leave CB2 open.** Both boards must use
-  the same radio module. Bridging two lights **LD1 red** — a module conflict, not
-  a data LED.
-- **The rover needs a dual-band L1/L2 antenna.** L1-only tops out at FLOAT (~4 cm).
-- **There are four SMA connectors.** The 433 antenna in a GNSS port gives a link
-  that looks dead but works intermittently at very short range.
+  the same radio module with a solid red Led as a indicator.
 
 ## Setup
 
